@@ -244,6 +244,8 @@ const BASE_TRAVEL = 3.6
 const TAIL_PACE = 1.6
 /** Seconds spent easing from the bend pace up to the faster tail pace. */
 const TAIL_RAMP = 0.3
+/** Playback rate for opening and closing; 1 plays both at the paces written below and in the close timeline. */
+export const SPEED = 1.8
 
 /**
  * Bends draw at the base pace; once the last one is done, the pace ramps up so
@@ -264,7 +266,10 @@ export function travelClock(bendT: number) {
     return Math.min(1, t)
   }
 
-  return { duration: bendSeconds + tail, progressAt }
+  return {
+    duration: (bendSeconds + tail) / SPEED,
+    progressAt: (seconds: number) => progressAt(seconds * SPEED),
+  }
 }
 
 /** After Effects trim: show the stroke from its start up to `drawn` along the path. */

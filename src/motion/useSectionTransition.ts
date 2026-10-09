@@ -13,6 +13,7 @@ import {
   placeCamera,
   ribbonPlan,
   ridesFor,
+  SPEED,
   travelClock,
   travelFor,
   trimPath,
@@ -260,6 +261,7 @@ export function useSectionTransition({
           onClosed()
         },
       })
+      tl.timeScale(SPEED)
 
       tl.to(cover.current, { scaleY: 1, duration: 0.55, ease }, 0)
       slots.forEach((slot, index) => {
