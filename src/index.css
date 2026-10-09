@@ -1,0 +1,319 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans:
+    'Helvetica Now Var', 'Helvetica Now Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-icon: 'Material Symbols Outlined', sans-serif;
+
+  --color-ground: #e8e8e8;
+  --color-ink: #000000;
+  --color-surface: #ffffff;
+  --color-card: #000000;
+  --color-on-card: #ffffff;
+  --color-track: #c3c3c3;
+
+  --color-section-work: #ffbcf2;
+  --color-section-tools: #c0b2b1;
+  --color-section-links: #869ed9;
+  --color-section-team: #ffd25b;
+  --color-section-system: #5a7047;
+
+  --text-display: clamp(2.5rem, 7.54vw, 7.125rem);
+  --text-display--line-height: 0.9;
+  --text-display--letter-spacing: -0.02em;
+
+  --text-title: clamp(2rem, 3.84vw, 3.625rem);
+  --text-title--line-height: 0.9;
+  --text-title--letter-spacing: -0.02em;
+
+  --text-banner: 2.625rem;
+  --text-banner--line-height: 0.9;
+  --text-banner--letter-spacing: -0.02em;
+
+  --text-heading: clamp(1.125rem, 1.59vw, 1.5rem);
+  --text-heading--line-height: 0.9;
+  --text-heading--letter-spacing: -0.02em;
+
+  --text-lede: clamp(1rem, 1.32vw, 1.25rem);
+  --text-lede--line-height: 1;
+
+  --text-body: 1rem;
+  --text-body--line-height: 1;
+
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.25;
+
+  --text-micro: 0.75rem;
+  --text-micro--line-height: 1;
+
+  --text-subtitle: clamp(1.5rem, 2.38vw, 2.25rem);
+  --text-subtitle--line-height: 1;
+  --text-subtitle--letter-spacing: -0.02em;
+
+  --text-glyph: clamp(1.75rem, 2.6vw, 2.5rem);
+  --text-glyph--line-height: 1;
+  --text-glyph-lg: clamp(2.25rem, 4vw, 3.75rem);
+  --text-glyph-lg--line-height: 1;
+
+  --spacing-badge: clamp(2rem, 3.04vw, 2.875rem);
+  --spacing-badge-dock: 1.875rem;
+  --spacing-2xs: 0.3125rem;
+  --spacing-xs: 0.5rem;
+  --spacing-s: 0.75rem;
+  --spacing-m: 1rem;
+  --spacing-ml: 1.25rem;
+  --spacing-l: 1.5rem;
+  --spacing-xl: 2.5rem;
+  --spacing-2xl: 3rem;
+  --spacing-gallery: 1.9375rem;
+  --spacing-3xl: 5rem;
+
+  --container-banner: 7.75rem;
+  --container-banner-head: 500px;
+  --container-banner-head-tablet: 340px;
+  --container-sidebar: 269px;
+  --container-person: 310px;
+  --container-project: 616px;
+  --container-rail: 262px;
+  --container-art: 282px;
+  --container-art-height: 257px;
+
+  --tracking-brand: 0.3em;
+
+  --aspect-placeholder: 282 / 257;
+  --aspect-portrait: 278 / 306;
+  --aspect-portrait-compact: 4 / 3;
+
+  --ease-choreo: cubic-bezier(0.8, 0, 0.2, 1);
+  --ease-ui: cubic-bezier(0.2, 0, 0, 1);
+}
+
+@layer base {
+  /* One title line. Banners stack in full, with a gap under the type
+     so descenders and number rings clear the next band. */
+  :root {
+    --banner-line: calc(var(--text-title) * 0.9);
+    --banner-overlap: 0px;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    overflow: clip;
+    overscroll-behavior: none;
+    background-color: var(--color-ground);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* Each section carries its own colour so nested surfaces can mix against it. */
+  .tone-work {
+    --section: var(--color-section-work);
+  }
+  .tone-tools {
+    --section: var(--color-section-tools);
+  }
+  .tone-links {
+    --section: var(--color-section-links);
+  }
+  .tone-team {
+    --section: var(--color-section-team);
+  }
+  .tone-system {
+    --section: var(--color-section-system);
+  }
+
+  .bg-section {
+    background-color: var(--section);
+  }
+  .text-section {
+    color: var(--section);
+  }
+
+  .icon-glyph {
+    font-family: var(--font-icon);
+    font-weight: 400;
+    font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 40;
+    line-height: 1;
+    user-select: none;
+  }
+
+  .landing-screen {
+    background-color: var(--color-ground);
+  }
+
+  .landing-screen[data-closing] {
+    background-color: transparent;
+  }
+
+  .dock {
+    --banner-line: calc(var(--text-banner) * 0.9);
+  }
+
+  .dock .banner {
+    height: var(--container-banner);
+    padding: var(--spacing-l);
+    transition: background-color 200ms var(--ease-ui);
+  }
+
+  .dock .banner .text-section {
+    transition: color 200ms var(--ease-ui);
+  }
+
+  /* Hover flips the band to white; content stays ink. Off while a click hands over to the transition. */
+  @media (hover: hover) {
+    .dock[data-hoverable] .banner-slot:hover .banner {
+      --section: var(--color-surface);
+      transition-duration: 300ms;
+    }
+    .dock[data-hoverable] .banner-slot:hover .banner .text-section {
+      transition-duration: 300ms;
+    }
+  }
+
+  .dock[data-hoverable] .banner-slot:has(:focus-visible) .banner {
+    --section: var(--color-surface);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dock .banner,
+    .dock .banner .text-section {
+      transition: none;
+    }
+  }
+
+  .weave {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  [data-cover] {
+    opacity: 0;
+    visibility: hidden;
+    transform-origin: top center;
+  }
+
+  .dock[data-choreo] .banner {
+    overflow: clip;
+    background-color: transparent;
+    transition: none;
+  }
+
+  .dock[data-blind] {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    margin-top: 0;
+  }
+
+  /* Clip so a band starts at 0px; the banner's padding would otherwise keep it 48px tall. */
+  .dock[data-blind] .banner-slot {
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    overflow: clip;
+  }
+
+  .dock[data-blind] .banner {
+    height: 100%;
+    transition: none;
+  }
+
+  .banner-slot {
+    position: relative;
+  }
+
+  .banner {
+    position: relative;
+    display: block;
+    width: 100%;
+    text-align: start;
+    padding-block: var(--spacing-l) var(--spacing-m);
+    padding-inline: var(--spacing-l);
+    background-color: var(--section);
+    pointer-events: none;
+  }
+
+  /* The band is a fixed height. Overflow stays visible so number rings are not cut. */
+  .banner-cluster {
+    height: 100%;
+  }
+
+  .banner-slot + .banner-slot {
+    margin-top: calc(var(--banner-overlap) * -1);
+  }
+
+  /* Placeholder artwork: the section colour as a block, a darker cut as a disc. */
+  .art-square,
+  .art-circle {
+    position: absolute;
+    width: 64%;
+    aspect-ratio: 1;
+  }
+  .art-square {
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    background-color: var(--section);
+  }
+  .art-circle {
+    inset-block-start: 30%;
+    inset-inline-start: 36%;
+    border-radius: 9999px;
+    background-color: color-mix(in srgb, var(--section) 74%, var(--color-ink));
+  }
+
+  .rail {
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+  }
+  .rail::-webkit-scrollbar {
+    display: none;
+  }
+
+  .rail-person {
+    flex: 0 0 auto;
+    width: var(--container-person);
+    scroll-snap-align: start;
+  }
+  .rail-project {
+    flex: 0 0 auto;
+    width: var(--container-project);
+    scroll-snap-align: start;
+  }
+
+  @media (width < 48rem) {
+    .rail-person {
+      width: min(82vw, var(--container-person));
+    }
+  }
+  @media (width < 64rem) {
+    .rail-project {
+      width: min(88vw, var(--container-project));
+    }
+  }
+
+}
+
+/* Utilities layer, so it outranks the section wrapper's z-10 class. */
+@layer utilities {
+  [data-reveal] [data-section] {
+    z-index: 40;
+  }
+}
